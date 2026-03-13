@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Churn Prediction</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f5f5f5;
+      color: #222;
+      padding: 40px 16px;
+    }
+
+    .card {
+      background: #fff;
+      max-width: 520px;
+      margin: 0 auto;
+      border-radius: 10px;
+      padding: 32px;
+      border: 1px solid #e0e0e0;
+    }
+
+    h1 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+      color: #111;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 0.75rem;
+      color: #666;
+      font-weight: 500;
+    }
+
+    select, input {
+      padding: 8px 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      background: #fafafa;
+      color: #111;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    select:focus, input:focus {
+      border-color: #555;
+      background: #fff;
+    }
+
+    hr { border: none; border-top: 1px solid #eee; margin: 20px 0; }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #111;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.15s;
+    }
+
+    button:hover { background: #333; }
+
+    .result {
+      margin-top: 20px;
+      padding: 14px 16px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    .result.churn {
+      background: #fff0f0;
+      border: 1px solid #f5c6c6;
+      color: #c0392b;
+    }
+
+    .result.no-churn {
+      background: #f0fff4;
+      border: 1px solid #b2dfdb;
+      color: #1a7a4a;
+    }
+
+    .result strong { display: block; font-size: 1rem; margin-bottom: 2px; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h1>Churn Prediction</h1>
+
+  <form method="POST" action="/predict">
+
+    <div class="row">
+      <div class="field">
+        <label>Gender</label>
+        <select name="gender">
+          <option value="0">Female</option>
+          <option value="1">Male</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Senior Citizen</label>
+        <select name="SeniorCitizen">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Partner</label>
+        <select name="Partner">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Dependents</label>
+        <select name="Dependents">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="field">
+        <label>Phone Service</label>
+        <select name="PhoneService">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Multiple Lines</label>
+        <select name="MultipleLines">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Internet Service</label>
+        <select name="InternetService">
+          <option value="0">DSL</option>
+          <option value="1">Fiber optic</option>
+          <option value="2">No</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Online Security</label>
+        <select name="OnlineSecurity">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Online Backup</label>
+        <select name="OnlineBackup">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Device Protection</label>
+        <select name="DeviceProtection">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Tech Support</label>
+        <select name="TechSupport">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Streaming TV</label>
+        <select name="StreamingTV">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label>Streaming Movies</label>
+        <select name="StreamingMovies">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="field">
+        <label>Contract</label>
+        <select name="Contract">
+          <option value="0">Month-to-month</option>
+          <option value="1">One year</option>
+          <option value="2">Two year</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Paperless Billing</label>
+        <select name="PaperlessBilling">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label>Payment Method</label>
+        <select name="PaymentMethod">
+          <option value="0">Electronic check</option>
+          <option value="1">Mailed check</option>
+          <option value="2">Bank transfer (automatic)</option>
+          <option value="3">Credit card (automatic)</option>
+        </select>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="field">
+        <label>Tenure (months)</label>
+        <input type="number" name="tenure" min="0" placeholder="0" required/>
+      </div>
+      <div class="field">
+        <label>Monthly Charges ($)</label>
+        <input type="number" name="MonthlyCharges" step="0.01" min="0" placeholder="0.00" required/>
+      </div>
+      <div class="field full">
+        <label>Total Charges ($)</label>
+        <input type="number" name="TotalCharges" step="0.01" min="0" placeholder="0.00" required/>
+      </div>
+    </div>
+
+    <button type="submit">Predict</button>
+  </form>
+
+  {% if probability is defined %}
+  <div class="result {{ 'churn' if prediction == 1 else 'no-churn' }}">
+    <strong>{{ 'Likely to churn' if prediction == 1 else 'Likely to stay' }}</strong>
+    Churn probability: {{ (probability * 100) | round(1) }}%
+  </div>
+  {% endif %}
+
+</div>
+</body>
+</html>

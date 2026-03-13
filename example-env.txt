@@ -1,8 +1,0 @@
-AWS_ACCESS_KEY_ID=***
-AWS_SECRET_ACCESS_KEY=***
-AWS_REGION=ap-south-1
-BUCKET_NAME=customer-churn-prediction-project
-OBJECT_KEY_RAW=raw/Telco-Customer-Churn.csv
-OBJECT_KEY_PROCESSED=processed/Processed-Telco-Customer-Churn.csv
-RF_MODEL_OBJECT_KEY=models/random_forest/random_forest_churn_model.pkl
-XGB_MODEL_OBJECT_KEY=models/xgb/xgb_churn_model.pkl

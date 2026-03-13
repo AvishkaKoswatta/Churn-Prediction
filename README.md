@@ -17,7 +17,7 @@ This project demonstrates a **customer churn prediction** system. The main objec
 | Recall (Churn, class 1)     | 0.73          | 0.74    |
 | F1-score (Churn, class 1)   | 0.64          | 0.64    |
 | Confusion Matrix            | [821, 214]    | [822, 213]
-                              | [100, 274]    | [99, 275]
+|                             | [100, 274]    | [99, 275]
                                                 
 
 ## Model Selection
